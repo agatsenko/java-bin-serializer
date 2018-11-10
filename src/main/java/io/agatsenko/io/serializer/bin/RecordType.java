@@ -4,6 +4,8 @@
  */
 package io.agatsenko.io.serializer.bin;
 
+import io.agatsenko.util.Check;
+
 public enum RecordType {
     NULL(0),
     TRUE(1),
@@ -28,6 +30,18 @@ public enum RecordType {
 
     RecordType(int byteValue) {
         this.byteValue = (byte) byteValue;
+    }
+
+    public static RecordType fromByteValue(byte byteValue) {
+        RecordType foundType = null;
+        for (var type : values()) {
+            if (type.byteValue == byteValue) {
+                foundType = type;
+                break;
+            }
+        }
+        Check.state(foundType != null, () -> byteValue + " byte value is unsupported");
+        return foundType;
     }
 
     public byte byteValue() {

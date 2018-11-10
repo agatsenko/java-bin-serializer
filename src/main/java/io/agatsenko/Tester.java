@@ -11,11 +11,14 @@ import java.util.Map;
 import io.agatsenko.io.serializer.Serializer;
 import io.agatsenko.io.serializer.bin.BinSerializer;
 import io.agatsenko.io.serializer.bin.ReflectionRecordFieldsExtractor;
+import io.agatsenko.io.serializer.bin.converter.json.JsonConverter;
+import io.agatsenko.io.serializer.bin.converter.json.readers.DefaultReaderResolver;
 import io.agatsenko.io.serializer.bin.writers.DefaultRecordWriterResolver;
 
 class Obj {
     Boolean nullVal = null;
-    String str = "test text";
+    String str = "string value";
+    StringBuilder sb = new StringBuilder("string builder value");
     char ch = 'q';
     boolean trueVal = true;
     boolean falseVal = false;
@@ -24,7 +27,7 @@ class Obj {
     int intVal = 1848;
     long longVal = 184848181848L;
     float floatVal = 18.48f;
-    double doubleVal= 18.48;
+    double doubleVal = 18.48;
     List<String> strList = List.of("one", "two", "three");
     Map<Integer, String> map = Map.of(1, "one", 2, "two", 3, "three");
 }
@@ -41,16 +44,18 @@ class RootObj extends Obj {
 
 public class Tester {
     public static void main(String[] args) {
-        try {
-            final var out = new ByteArrayOutputStream();
-
-            final var serializer = createSerializer();
+        try (var out = new ByteArrayOutputStream()) {
+            var serializer = createSerializer();
             serializer.serialize(new RootObj(), out);
 
+            var bytes = out.toByteArray();
             for (var b : out.toByteArray()) {
                 System.out.printf("%02x", b);
             }
             System.out.println();
+
+            var converter = new JsonConverter(new DefaultReaderResolver());
+            System.out.println(converter.convert(bytes));
         }
         catch (Exception ex) {
             ex.printStackTrace();

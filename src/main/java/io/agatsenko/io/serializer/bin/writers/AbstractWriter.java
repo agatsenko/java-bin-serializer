@@ -23,7 +23,7 @@ public abstract class AbstractWriter<T> implements RecordWriter<T> {
 
     protected static void writeShort(short value, OutputStream out) throws IOException {
         for (var i = 0; i < 2; ++i) {
-            out.write((value >>> (i * 8)) & 0xFF);
+            out.write((value >>> (i * 8)) & (short) 0xFF);
         }
     }
 
@@ -35,7 +35,7 @@ public abstract class AbstractWriter<T> implements RecordWriter<T> {
 
     protected static void writeLong(long value, OutputStream out) throws IOException {
         for (var i = 0; i < 8; ++i) {
-            out.write((int) (value >>> (i * 8)) & 0xFF);
+            out.write((int) ((value >>> (i * 8)) & 0xFFL));
         }
     }
 

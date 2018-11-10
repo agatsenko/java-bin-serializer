@@ -38,6 +38,7 @@ public class ObjectWriter extends AbstractWriter<Object> {
         List<RecordField> fields = fieldsExtractor.extract(value);
         writeLength(fields.size(), out);
         for (final var field : fields) {
+            nameWriter.write(field.name, out);
             field.valueWriter.write(field.value, out);
         }
     }
