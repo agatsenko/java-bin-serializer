@@ -21,11 +21,11 @@ public class PairsRecord implements Record {
         sb.append('[');
         if (!pairs.isEmpty()) {
             pairs.forEach(p -> {
-                sb.append('(');
+                sb.append('[');
                 p.first.writeJson(sb);
-                sb.append(" -> ");
+                sb.append(',');
                 p.second.writeJson(sb);
-                sb.append("),");
+                sb.append("],");
             });
             sb.delete(sb.length() - 1, sb.length());
         }
