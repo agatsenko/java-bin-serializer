@@ -23,7 +23,7 @@ public class PairsRecord implements Record {
             pairs.forEach(p -> {
                 sb.append('(');
                 p.first.writeJson(sb);
-                sb.append(',');
+                sb.append(" -> ");
                 p.second.writeJson(sb);
                 sb.append("),");
             });
